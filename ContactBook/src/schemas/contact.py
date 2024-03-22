@@ -8,7 +8,7 @@ class ContactSchema(BaseModel):
     last_name: str = Field(max_length=100)
     email: str | None = Field(max_length=100, nullable=True)
     phone_number: str = Field(max_length=20,
-                              pattern=r"^\+\d{10,15}$")  # Приклад регулярного вираження для номера телефону
+                              pattern=r"^\+\d{12}$")  # Приклад регулярного виразу для номера телефону
     birthday: date | None = Field(nullable=True)
     description: str | None = Field(max_length=250, nullable=True)
 
