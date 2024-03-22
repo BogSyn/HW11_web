@@ -9,6 +9,7 @@ from src.schemas.contact import ContactSchema
 
 async def create_contact(body: ContactSchema, db: AsyncSession):
     """Створює новий контакт у базі даних."""
+
     contact = Contact(**body.model_dump(exclude_unset=True))
     db.add(contact)
     await db.commit()
@@ -18,6 +19,7 @@ async def create_contact(body: ContactSchema, db: AsyncSession):
 
 async def get_contacts(limit: int, offset: int, db: AsyncSession):
     """Повертає список контактів з бази даних з урахуванням ліміту та зміщення."""
+
     stmt = select(Contact).offset(offset).limit(limit)
     contacts = await db.execute(stmt)
     return contacts.scalars().all()
@@ -25,6 +27,7 @@ async def get_contacts(limit: int, offset: int, db: AsyncSession):
 
 async def get_contact(contact_id: int, db: AsyncSession):
     """Повертає контакт за його ідентифікатором."""
+
     stmt = select(Contact).filter_by(id=contact_id)
     res = await db.execute(stmt)
     contact = res.scalar_one_or_none()
@@ -36,6 +39,7 @@ async def get_contact(contact_id: int, db: AsyncSession):
 
 async def update_contact(contact_id: int, body: ContactSchema, db: AsyncSession):
     """Оновлює існуючий контакт у базі даних."""
+
     stmt = select(Contact).filter_by(id=contact_id)
     res = await db.execute(stmt)
     contact = res.scalar_one_or_none()
@@ -55,6 +59,7 @@ async def update_contact(contact_id: int, body: ContactSchema, db: AsyncSession)
 
 async def delete_contact(contact_id: int, db: AsyncSession):
     """Видаляє контакт з бази даних за його ідентифікатором."""
+
     stmt = select(Contact).filter_by(id=contact_id)
     res = await db.execute(stmt)
     contact = res.scalar_one_or_none()
@@ -68,6 +73,7 @@ async def delete_contact(contact_id: int, db: AsyncSession):
 
 async def search(first_name: str, last_name: str, email: str, db: AsyncSession):
     """Пошук контактів за ім'ям, прізвищем та адресою електронної пошти."""
+
     stmt = None
 
     if first_name:
