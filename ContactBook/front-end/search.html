@@ -1,55 +1,31 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <script src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="script.js"></script>
 </head>
-
 <body>
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <h2 class="text-center mb-4">Search contacts</h2>
-                <form id="searchForm" x-data="{ searchResults: [], firstName: '', lastName: '', email: '' }">
-                    <div class="form-group">
-                        <label for="searchFirstName">FirstName</label>
-                        <input type="text" class="form-control" id="searchFirstName" placeholder="Enter first name"
-                               x-model="firstName">
-                    </div>
-                    <div class="form-group">
-                        <label for="searchLastName">LastName</label>
-                        <input type="text" class="form-control" id="searchLastName" placeholder="Enter last name"
-                               x-model="lastName">
-                    </div>
-                    <div class="form-group">
-                        <label for="searchEmail">Email</label>
-                        <input type="email" class="form-control" id="searchEmail" placeholder="Enter email"
-                               x-model="email">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
-            </div>
-        </div>
+  <div class="container mt-5">
+    <h1>Search</h1>
+    <div class="form-group">
+      <label for="first_name">First Name:</label>
+      <input type="text" class="form-control" id="first_name">
     </div>
-
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <h2 class="text-center mb-4">Search Results</h2>
-                <div id="searchResults" x-show="searchResults.length > 0">
-                    <ul class="list-group">
-                        <template x-for="contact in searchResults">
-                            <li class="list-group-item">{{ contact.first_name }} {{ contact.last_name }}</li>
-                        </template>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <div class="form-group">
+      <label for="last_name">Last Name:</label>
+      <input type="text" class="form-control" id="last_name">
     </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email">
+    </div>
+    <button class="btn btn-primary" onclick="searchContacts()">Search</button>
+    <hr>
+    <div id="searchResults"></div>
+  </div>
 
 </body>
-
 </html>
-

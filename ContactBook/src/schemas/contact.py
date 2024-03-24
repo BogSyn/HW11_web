@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, field_validator
 
 class ContactSchema(BaseModel):
     first_name: str = Field(max_length=100)
-    last_name: str = Field(max_length=100)
+    last_name: str | None = Field(max_length=100, nullable=True)
     email: str | None = Field(max_length=100, nullable=True)
     phone_number: str = Field(max_length=20,
                               pattern=r"^\+\d{12}$")  # Приклад регулярного виразу для номера телефону

@@ -59,24 +59,70 @@ window.getBirthdays = async function (contacts) {
   }
 }
 
-window.searchContacts = async function () {
-  const firstName = document.getElementById('searchFirstName').value;
-  const lastName = document.getElementById('searchLastName').value;
-  const email = document.getElementById('searchEmail').value;
+async function searchContacts() {
+  const firstName = document.getElementById('first_name').value.trim();
+  const lastName = document.getElementById('last_name').value.trim();
+  const email = document.getElementById('email').value.trim();
 
-  this.searchResults = [];
+  const query = [];
+  if (firstName) query.push(`first_name=${firstName}`);
+  if (lastName) query.push(`last_name=${lastName}`);
+  if (email) query.push(`email=${email}`);
 
-  const response = await fetch(`${url}/search?first_name=${firstName}&last_name=${lastName}&email=${email}`, {
-    method: 'GET', // Use GET method for searching
-    headers: {
-      'accept': 'application/json',
-    },
-  });
+  const queryString = query.join('&');
+  const searchUrl = `${url}search?${queryString}`;
 
-  if (!response.ok) {
-    throw new Error(`Error fetching contacts: ${response.statusText}`);
+  try {
+    const response = await fetch(searchUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const contacts = await response.json();
+    displaySearchResults(contacts);
+  } catch (error) {
+    console.error('Error searching contacts:', error.message || error);
+  }
+}
+
+function displaySearchResults(contacts) {
+  const searchResults = document.getElementById('searchResults');
+  searchResults.innerHTML = '';
+
+  if (contacts.length === 0) {
+    searchResults.innerHTML = '<p>No contacts found.</p>';
+    return;
   }
 
-  const data = await response.json();
-  this.searchResults = data;
+  const table = document.createElement('table');
+  table.className = 'table table-striped';
+  const thead = document.createElement('thead');
+  thead.innerHTML = `
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone Number</th>
+      <th scope="col">Birthday</th>
+      <th scope="col">Description</th>
+    </tr>
+  `;
+  const tbody = document.createElement('tbody');
+  contacts.forEach(contact => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${contact.id}</td>
+      <td>${contact.first_name}</td>
+      <td>${contact.last_name}</td>
+      <td>${contact.email}</td>
+      <td>${contact.phone_number}</td>
+      <td>${contact.birthday}</td>
+      <td>${contact.description}</td>
+    `;
+    tbody.appendChild(row);
+  });
+  table.appendChild(thead);
+  table.appendChild(tbody);
+  searchResults.appendChild(table);
 }
+

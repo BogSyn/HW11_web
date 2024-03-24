@@ -52,7 +52,7 @@
 
             <div class="row mt-4 mb-4 justify-content-center">
             <a href="add_contact.html" class="btn btn-primary mr-3">Create contact</a>
-            <a href="birthday.html" class="btn btn-primary mr-3">Birthday week</a>
+            <a href="birthday.html" class="btn btn-primary mr-3">Birthday</a>
             <a href="search.html" class="btn btn-primary">Search contact</a>
             </div>
 
@@ -72,7 +72,7 @@
                                                                   x-text="contact.birthday"></span></div>
                             <div><strong>Description:</strong> <span @dblclick="task.editing = true"
                                                                      x-text="contact.description"></span></div>
-                            <button @click="deleteContact(contact.id)" class="btn btn-sm btn-danger">Delete</button>
+                            <button @click="deleteContact(contact.id); $nextTick(() => getContacts())" class="btn btn-sm btn-danger">Delete</button>
                             <button @click="contact.editing = true" class="btn btn-sm btn-warning">Edit</button>
                         </div>
                         <div x-show="contact.editing">
